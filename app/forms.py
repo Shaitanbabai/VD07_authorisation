@@ -32,9 +32,11 @@ class LoginForm(FlaskForm):
 
 
 class UpdateAccountForm(FlaskForm):
-    username = StringField('Имя пользователя', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Электронная почта', validators=[DataRequired(), Email()])
-    submit = SubmitField('Обновить')
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('New Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Update')
 
     def validate_username(self, username):
         if username.data != current_user.username:
@@ -47,3 +49,5 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('Такая почта уже используется.')
+
+

@@ -74,7 +74,7 @@ def account():
     return render_template('account.html', user=user)
 
 
-@app.route('/account/edit', methods=['GET', 'POST'])
+@app.route('/edit_account', methods=['GET', 'POST'])
 @login_required
 def edit_account():
     form = UpdateAccountForm()
@@ -83,8 +83,8 @@ def edit_account():
         current_user.email = form.email.data
         db.session.commit()
         flash('Ваш аккаунт был обновлен!', 'success')
-        return redirect(url_for('account'))
+        return redirect(url_for('edit_account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-    return render_template('edit_account.html',form=form)
+    return render_template('edit_account.html', form=form)
